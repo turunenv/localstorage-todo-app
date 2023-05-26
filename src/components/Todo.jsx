@@ -6,10 +6,15 @@ export default function Todo({ todo, toggleCompleted }) {
       key={todo.id} 
       className={todo.completed ? 'completed' : ''}
     >
-      <div>
-        <input type="checkbox" id={`toggleCompleted-${todo.id}`}/>
-        <label htmlFor={`toggleCompleted-${todo.id}`}>{todo.text}</label>
-      </div>
+      <label>
+        <input 
+          type="checkbox" 
+          id={`toggleCompleted-${todo.id}`}
+          onChange={toggleCompleted}
+        />
+        {todo.text}
+      </label>
+      
     </li>
   )
 }
