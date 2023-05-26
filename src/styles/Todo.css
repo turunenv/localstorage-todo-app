@@ -8,3 +8,8 @@ li {
 .completed {
   background-color: green;
 }
+
+li > div >  input{
+  width: 20px;
+  height: 20px;;
+}
