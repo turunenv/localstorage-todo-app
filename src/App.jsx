@@ -21,6 +21,17 @@ function App() {
     return [];
   }
 
+  function updateStoredTodos(todos) {
+    const jsonTodos = JSON.stringify(todos);
+    localStorage.setItem('todos', jsonTodos);
+
+    const updatedTodos = localStorage.getItem('todos');
+    if (updatedTodos) {
+      return JSON.parse(updatedTodos);
+    }
+    return [];
+  }
+
   function handleTodoSubmit(e) {
     e.preventDefault();
 
@@ -50,7 +61,23 @@ function App() {
   }
 
   function toggleTodoCompleted(id) {
+    const newTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          completed: !todo.completed,
+        }
+      } else {
+        return todo;
+      }
+    })
 
+    setTodos(updateStoredTodos(newTodos));
+  }
+
+  function removeCompleted() {
+    const newTodos = todos.filter(todo => !todo.completed);
+    setTodos(updateStoredTodos(newTodos));
   }
 
   function handleTextChange(e) {
@@ -64,6 +91,20 @@ function App() {
     }, 2000)
   }
 
+  let todosToDisplay = todos.toSorted((a,b) => {
+    if (!a.completed && b.completed) {
+      return -1;
+    }
+    return 1;
+  })
+
+  let numOfCompleted = todos.reduce((acc, currentTodo) => {
+    if (currentTodo.completed) {
+      return acc + 1;
+    }
+    return acc;
+  }, 0)
+
   return (
     <>
       <h1>Todos</h1>
@@ -76,10 +117,19 @@ function App() {
       <ErrorMessage error={error}/>
 
       {todos.length > 1 ? (
-        <TodoList todoList={todos} />
+        <TodoList 
+          todoList={todosToDisplay} 
+          toggleCompleted={toggleTodoCompleted}
+        />
       ) : (
         <p>No todos added yet.</p>
       )}
+
+      {(numOfCompleted > 0) &&
+        <button onClick={removeCompleted}>
+          Remove completed
+        </button>
+      }
 
       
     </>
