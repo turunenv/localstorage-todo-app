@@ -14,24 +14,32 @@ function setTodos(todos) {
 }
 
 function addTodo(todo) {
-  setTodos(...getTodos, todo);
+  setTodos([...getTodos(), todo]);
 
   return getTodos();
 }
 
 function toggleCompleted(id) {
   let todos = getTodos();
-  let newTodos = todos.map(todo => {
+  let newTodos = todos.map((todo) => {
     if (todo.id === id) {
       return {
         ...todo,
         completed: !todo.completed,
-      }
+      };
     }
+    return todo;
+  });
+  setTodos(newTodos);
 
-    setTodos(newTodos);
-  })
-
+  return getTodos();
 }
 
-export { getTodos, addTodo, toggleCompleted };
+function removeCompletedTodos(todos) {
+  let newTodos = todos.filter((todo) => !todo.completed);
+  setTodos(newTodos);
+
+  return getTodos();
+}
+
+export { getTodos, addTodo, toggleCompleted, removeCompletedTodos };

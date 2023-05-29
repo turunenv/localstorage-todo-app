@@ -11,6 +11,7 @@ export default function Todo({ todo, toggleCompleted }) {
           type="checkbox" 
           id={`toggleCompleted-${todo.id}`}
           onChange={toggleCompleted}
+          checked={todo.completed}
         />
         {todo.text}
       </label>

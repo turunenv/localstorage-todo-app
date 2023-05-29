@@ -1,5 +1,8 @@
 import { useState, useRef } from 'react';
 
+import useImportScript from './hooks/useImportScript.js';
+import * as locStorage from './localStorage.js';
+
 import TodoList from './components/TodoList.jsx';
 import AddTodoForm from './components/AddTodoForm.jsx';
 import ErrorMessage from './components/Error.jsx';
@@ -9,28 +12,15 @@ import './styles/App.css';
 function App() {
   const [nextTodo, setNextTodo] = useState('');
   const [error, setError] = useState(null);
-  const [todos, setTodos] = useState(() => parseStoredTodos());
+  const [todos, setTodos] = useState(() => locStorage.getTodos());
 
+  console.log('Rendering... todos: ', todos);
+
+  useImportScript('/src/static/todoTransitions.js');
+
+  //ref to remove error message timer when user adds a successful todo 
   let errorTimeoutId = useRef(null);
 
-  function parseStoredTodos() {
-    const todos = localStorage.getItem('todos');
-    if (todos) {
-      return JSON.parse(todos);
-    }
-    return [];
-  }
-
-  function updateStoredTodos(todos) {
-    const jsonTodos = JSON.stringify(todos);
-    localStorage.setItem('todos', jsonTodos);
-
-    const updatedTodos = localStorage.getItem('todos');
-    if (updatedTodos) {
-      return JSON.parse(updatedTodos);
-    }
-    return [];
-  }
 
   function handleTodoSubmit(e) {
     e.preventDefault();
@@ -54,30 +44,10 @@ function App() {
       completed: false,
     }
 
-    localStorage.setItem('todos', JSON.stringify([...todos, newTodo]));
+    let newTodos = locStorage.addTodo(newTodo);
     
-    setTodos(JSON.parse(localStorage.getItem('todos')));  
+    setTodos(newTodos);  
     setNextTodo('');
-  }
-
-  function toggleTodoCompleted(id) {
-    const newTodos = todos.map(todo => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          completed: !todo.completed,
-        }
-      } else {
-        return todo;
-      }
-    })
-
-    setTodos(updateStoredTodos(newTodos));
-  }
-
-  function removeCompleted() {
-    const newTodos = todos.filter(todo => !todo.completed);
-    setTodos(updateStoredTodos(newTodos));
   }
 
   function handleTextChange(e) {
@@ -105,6 +75,10 @@ function App() {
     return acc;
   }, 0)
 
+  function toggleTodoCompleted(id) {
+    setTodos(locStorage.toggleCompleted(id));
+  }
+
   return (
     <>
       <h1>Todos</h1>
@@ -116,7 +90,7 @@ function App() {
 
       <ErrorMessage error={error}/>
 
-      {todos.length > 1 ? (
+      {todos.length > 0 ? (
         <TodoList 
           todoList={todosToDisplay} 
           toggleCompleted={toggleTodoCompleted}
@@ -126,7 +100,7 @@ function App() {
       )}
 
       {(numOfCompleted > 0) &&
-        <button onClick={removeCompleted}>
+        <button onClick={() => setTodos(locStorage.removeCompletedTodos)}>
           Remove completed
         </button>
       }
