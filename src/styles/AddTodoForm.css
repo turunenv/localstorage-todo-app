@@ -1,0 +1,65 @@
+form {
+  display: flex;
+}
+
+form > button {
+  background-color: #333;
+  color: #fff;
+  margin-left: 5px;
+  padding: 2px 15px;
+  border-radius: 4px;
+  line-height: 1.5;
+  font-size: 1.2rem;
+}  
+
+
+.todo-type-selection > button {
+  margin-top: 0.25rem;
+  padding: 2px 4px;
+  margin-left: 2px;
+  font-size: 1.1rem;
+  border-radius: 4px;
+}
+
+.todo-form-wrapper {
+  display: flex;
+}
+
+.selected-todo-type {
+  background-color: darkcyan;
+  color: #eee;
+}
+
+
+form > input {
+  line-height: 1.5rem;
+  transition: background-color 0.2s ease-in;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+form > input:nth-child(1) {
+  width: 300px;
+}
+
+.timer-time-controls {
+  position: relative;
+  bottom: 21px;
+  height: 36.8px;
+  overflow: visible;
+}
+.timer-time-controls > label, input {
+  display: block;
+  bottom: 20px;
+}
+
+.timer-time-controls > input {
+  width: 60px;
+  height: 36.8px;
+  line-height: 1.5rem;
+}
+
+
+form > input:hover {
+  background-color: #ddd;
+}

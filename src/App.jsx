@@ -19,6 +19,8 @@ function App() {
   const [nextTodo, setNextTodo] = useState('');
   const [error, setError] = useState(null);
   const [todos, setTodos] = useState(initialTodos);
+  const [isTimerTodo, setIsTimerTodo] = useState(false);
+  const [timerTime, setTimerTime] = useState(null);
 
   useImportScript('/src/static/todoTransitions.js');
 
@@ -32,7 +34,6 @@ function App() {
     
     return largestId + 1;
   }
-
 
   function handleTodoSubmit(e) {
     e.preventDefault();
@@ -66,6 +67,22 @@ function App() {
     setNextTodo(e.target.value);
   }
 
+  function handleTimerTimeChange(e) {
+    setTimerTime(e.target.value);
+  }
+
+  function handleTodoTypeChange(e) {
+    const cname = 'selected-todo-type';
+    if (e.target.className === cname) return;
+
+    let prevSelected = document.querySelector(`.${cname}`);
+    prevSelected.className = '';
+    e.target.className = cname;
+
+
+    setIsTimerTodo(!isTimerTodo);
+  }
+
   //display the error message for 2 seconds
   if (error) {
     errorTimeoutId.current = setTimeout(() => {
@@ -74,10 +91,10 @@ function App() {
   }
 
   let todosToDisplay = todos.toSorted((a,b) => {
-    if (!a.completed && b.completed) {
-      return -1;
-    }
-    return 1;
+    if (a.completed && !b.completed) {
+      return 1;
+    } 
+    return -1;
   })
 
   let numOfCompleted = todos.reduce((acc, currentTodo) => {
@@ -93,11 +110,15 @@ function App() {
 
   return (
     <div className='todo-wrapper'>
-      <h1>Todos</h1>
+      <h1>Tasks</h1>
       <AddTodoForm 
         todoText={nextTodo}
         handleSubmit={handleTodoSubmit}
         handleTextChange={handleTextChange}
+        isTimerTodo={isTimerTodo}
+        timerTime={timerTime}
+        handleTimerTimeChance={handleTimerTimeChange}
+        handleTodoTypeChange={handleTodoTypeChange}
       />
 
       <ErrorMessage error={error}/>
