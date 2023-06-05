@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import useImportScript from './hooks/useImportScript.js';
 import * as locStorage from './localStorage.js';
@@ -12,9 +12,13 @@ import './styles/App.css';
 function App() {
   const [nextTodo, setNextTodo] = useState('');
   const [error, setError] = useState(null);
-  const [todos, setTodos] = useState(() => locStorage.getTodos());
+  const [todos, setTodos] = useState([]);
 
-  console.log('Rendering... todos: ', todos);
+  //fetch the initial todos stored in localstorage
+  useEffect(() => {
+    console.log('fetching the initial todos!')
+    setTodos(locStorage.getTodos());
+  }, [])
 
   useImportScript('/src/static/todoTransitions.js');
 
@@ -80,7 +84,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className='todo-wrapper'>
       <h1>Todos</h1>
       <AddTodoForm 
         todoText={nextTodo}
@@ -104,9 +108,7 @@ function App() {
           Remove completed
         </button>
       }
-
-      
-    </>
+    </div>
   );
 }
 
