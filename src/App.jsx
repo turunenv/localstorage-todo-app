@@ -9,21 +9,29 @@ import ErrorMessage from './components/Error.jsx';
 
 import './styles/App.css';
 
+//fetch the initial todos during module initialization
+let initialTodos;
+if (typeof window !== 'undefined') {
+  initialTodos = locStorage.getTodos();
+}
+
 function App() {
   const [nextTodo, setNextTodo] = useState('');
   const [error, setError] = useState(null);
-  const [todos, setTodos] = useState([]);
-
-  //fetch the initial todos stored in localstorage
-  useEffect(() => {
-    console.log('fetching the initial todos!')
-    setTodos(locStorage.getTodos());
-  }, [])
+  const [todos, setTodos] = useState(initialTodos);
 
   useImportScript('/src/static/todoTransitions.js');
 
   //ref to remove error message timer when user adds a successful todo 
   let errorTimeoutId = useRef(null);
+
+  function getNextTodoId() {
+    let largestId = todos.reduce((maxId, nextTodo) => {
+        return Math.max(maxId, nextTodo.id)
+      }, 0)
+    
+    return largestId + 1;
+  }
 
 
   function handleTodoSubmit(e) {
@@ -43,7 +51,7 @@ function App() {
     }
 
     const newTodo = {
-      id: self.crypto.randomUUID(),
+      id: getNextTodoId(),
       text: todoText,
       completed: false,
     }
