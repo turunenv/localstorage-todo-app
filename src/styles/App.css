@@ -37,6 +37,19 @@ h1 {
   color: #000;
 }
 
+@media (max-width: 850px) {
+  .todo-wrapper {
+    min-width: 200px;
+    min-width: 90%;
+  }
+}
+
+@media (max-width: 500px) {
+  h1 {
+    font-size: 3rem;
+  }
+}
+
 .todo-type-selector {
   display: inline-block;
 }
