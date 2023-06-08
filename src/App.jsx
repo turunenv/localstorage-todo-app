@@ -20,7 +20,7 @@ function App() {
   const [error, setError] = useState(null);
   const [todos, setTodos] = useState(initialTodos);
   const [isTimerTodo, setIsTimerTodo] = useState(false);
-  const [timerTime, setTimerTime] = useState(null);
+  const [timerTime, setTimerTime] = useState("15");
 
   useImportScript('/src/static/todoTransitions.js');
 
@@ -44,32 +44,67 @@ function App() {
       setError(null);
     }
 
-    const todoText = document.getElementById("todo").value;
-
-    if (todoText.length === 0) {
-      setError('empty todo text');
+    if (nextTodo.length === 0) {
+      setError('Add a task to complete.');
       return;
     }
 
-    const newTodo = {
-      id: getNextTodoId(),
-      text: todoText,
-      completed: false,
+    if (isTimerTodo && (timerTime.length === 0 || isNaN(timerTime))) {
+      setError('Enter a valid number for the timer.');
+      return;
     }
 
-    let newTodos = locStorage.addTodo(newTodo);
+    let newTodo;
+
+    // handle normal todo-items
+    if (!isTimerTodo) {
+      //set max length for normal todos
+      if (nextTodo.length > 23) {
+        setError('Try to be more concise.');
+        return;
+      }
+      newTodo = {
+        id: getNextTodoId(),
+        type: "normal",
+        text: nextTodo,
+        completed: false,
+      } 
+    } else {
+        // handle timer-todos
+        newTodo = {
+          id: getNextTodoId(),
+          type: "timer",
+          text: nextTodo,
+          seconds: Number(timerTime) * 60,
+          completed: false,
+        }
+        setTimerTime('15');
+      }
+  
+      let newTodos = locStorage.addTodo(newTodo);
+      
+      setTodos(newTodos);  
+      setNextTodo('');
+      return;
+    }
+  
+
+  function handleTextChange(e, isTimer) {
+    let todo = e.target.value;
+
+    //make sure the todo-text will fit the screen
+    if ((isTimer && todo.length > 20) || (!isTimer && todo.length > 23)){
+      setError('Try to be more concise.');
+      return;
+      } 
+
+      setNextTodo(e.target.value);
+    }
     
-    setTodos(newTodos);  
-    setNextTodo('');
-  }
-
-  function handleTextChange(e) {
-    setNextTodo(e.target.value);
-  }
-
   function handleTimerTimeChange(e) {
     setTimerTime(e.target.value);
   }
+
 
   function handleTodoTypeChange(e) {
     const cname = 'selected-todo-type';
@@ -92,6 +127,9 @@ function App() {
 
   let todosToDisplay = todos.toSorted((a,b) => {
     if (a.completed && !b.completed) {
+      // non-completed todos should come first
+      return 1;
+    } else if (a.type === "timer" && b.type === "normal") {
       return 1;
     } 
     return -1;
@@ -114,10 +152,10 @@ function App() {
       <AddTodoForm 
         todoText={nextTodo}
         handleSubmit={handleTodoSubmit}
-        handleTextChange={handleTextChange}
+        handleTextChange={(e) => handleTextChange(e, isTimerTodo)}
         isTimerTodo={isTimerTodo}
         timerTime={timerTime}
-        handleTimerTimeChance={handleTimerTimeChange}
+        handleTimerTimeChange={handleTimerTimeChange}
         handleTodoTypeChange={handleTodoTypeChange}
       />
 

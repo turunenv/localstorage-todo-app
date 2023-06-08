@@ -1,10 +1,10 @@
 import '../styles/AddTodoForm.css';
 
-export default function AddTodoForm({ 
-  todoText, 
-  handleTextChange, 
-  handleSubmit, 
-  isTimerTodo, 
+export default function AddTodoForm({
+  todoText,
+  handleTextChange,
+  handleSubmit,
+  isTimerTodo,
   timerTime,
   handleTodoTypeChange,
   handleTimerTimeChange
@@ -12,7 +12,7 @@ export default function AddTodoForm({
   return (
     <div className='todo-form-wrapper'>
       <div className='todo-type-selection'>
-          <button 
+          <button
             className='selected-todo-type'
             onClick={handleTodoTypeChange}
           >
@@ -24,18 +24,18 @@ export default function AddTodoForm({
             Timer
           </button>
       </div>
-      <form 
+      <form
         className="todo-form"
         onSubmit={handleSubmit}
       >
-        <input 
-          type="text" 
+        <input
+          type="text"
           placeholder="todo..."
-          id="todo" 
+          id="todo"
           value={todoText}
           onChange={handleTextChange}
         />
-        
+
         {isTimerTodo && (
           <div className="timer-time-controls">
             <label htmlFor="timer-time">minutes</label>
@@ -50,7 +50,7 @@ export default function AddTodoForm({
           )
         }
         <button type="submit">Add</button>
-       
+
       </form>
     </div>
   )
