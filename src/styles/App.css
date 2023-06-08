@@ -38,6 +38,9 @@ h1 {
 }
 
 @media (max-width: 850px) {
+  :root {
+    font-size: 14px;
+  }
   .todo-wrapper {
     min-width: 200px;
     min-width: 90%;
@@ -45,6 +48,9 @@ h1 {
 }
 
 @media (max-width: 500px) {
+  :root {
+    font-size: 12px;
+  }
   h1 {
     font-size: 3rem;
   }

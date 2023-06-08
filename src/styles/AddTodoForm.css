@@ -72,14 +72,7 @@ form > input:nth-child(1) {
 }
 
 
-form > input:hover {
-  background-color: #ddd;
-}
-
 @media (max-width: 850px) {
-  :root {
-    font-size: 14px;
-  }
   .todo-form-wrapper {
     flex-direction: column;
     align-items: center;
@@ -92,6 +85,19 @@ form > input:hover {
   }
   .timer-time-controls > label {
     position: relative;
-    top: 55px;
+    top: 53px;
+  }
+}
+
+@media (max-width: 850px) {
+  .error-message {
+    position: relative;
+    right: 60px;
+  }
+}
+
+@media (max-width: 500px) {
+  .timer-time-controls {
+    bottom: 16px;
   }
 }

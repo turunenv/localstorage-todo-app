@@ -1,9 +1,9 @@
 export default function Error({ error }) {
   return (
-    <div style={{height: 40}}>
+    <div style={{height: 40}} className='error-message'>
       {error ? (
         <p style={{color: 'red'}}>
-        Do not add empty todos!
+        {error}
       </p> ) :
       null
       }
