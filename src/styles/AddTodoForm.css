@@ -11,11 +11,9 @@ form > button {
   line-height: 1.5;
   font-size: 1.2rem;
   margin-right: 10px;
+}
 
-}  
-
-
-.todo-type-selection  button {
+.todo-type-selection button {
   margin-top: 0.25rem;
   padding: 2px 4px;
   margin-left: 2px;
@@ -38,7 +36,6 @@ form > button {
   overflow: hidden;
 }
 
-
 form > input {
   line-height: 1.5rem;
   transition: background-color 0.2s ease-in;
@@ -57,7 +54,8 @@ form > input:nth-child(1) {
   height: 36.8px;
   overflow: visible;
 }
-.timer-time-controls > label, input {
+.timer-time-controls > label,
+input {
   display: block;
 }
 
@@ -67,7 +65,6 @@ form > input:nth-child(1) {
   line-height: 1.5rem;
   font-size: 1.2rem;
 }
-
 
 @media (max-width: 850px) {
   .todo-form-wrapper {
@@ -86,14 +83,13 @@ form > input:nth-child(1) {
   }
 }
 
-@media (hover:hover) {
+@media (hover: hover) {
   .todo-form-wrapper button {
     position: relative;
     bottom: 0;
     right: 0;
     box-shadow: 0px 0px #444;
     transition: bottom 0.1s linear, right 0.1s linear, box-shadow 0.1s linear;
-  
   }
 
   .todo-form-wrapper button:hover {

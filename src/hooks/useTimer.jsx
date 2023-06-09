@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function useTimer(seconds) {
   const [secondsLeft, setSecondsLeft] = useState(seconds);
@@ -6,16 +6,20 @@ export default function useTimer(seconds) {
 
   const toggleStopped = () => setIsStopped(!isStopped);
 
+  const updateTime = (time) => {
+    console.log('updating the time with value ', time);
+    setSecondsLeft(time);
+  };
+
   useEffect(() => {
     if (secondsLeft <= 0 || isStopped) return;
-  
+
     let timeoutId = setTimeout(() => {
       setSecondsLeft(secondsLeft - 1);
     }, 1000);
-    
+
     return () => clearTimeout(timeoutId);
+  }, [seconds, secondsLeft, isStopped]);
 
-  }, [seconds, secondsLeft, isStopped])
-
-  return [secondsLeft, isStopped, toggleStopped];
+  return [secondsLeft, updateTime, isStopped, toggleStopped];
 }

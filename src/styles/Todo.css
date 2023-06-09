@@ -19,7 +19,6 @@
   max-width: 100%;
 }
 
-
 .todo-item label {
   display: inline-block;
   text-align: left;
@@ -55,12 +54,9 @@
   text-decoration: line-through;
 }
 
-
-
 .completed {
   background-color: green;
 }
-
 
 @media (max-width: 500px) {
   .timer-todo {
@@ -89,7 +85,7 @@
   }
 }
 
-@media (hover:hover) {
+@media (hover: hover) {
   .todo-item:hover {
     background-color: #555;
     color: #fff;

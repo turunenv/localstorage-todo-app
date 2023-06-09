@@ -19,16 +19,16 @@ function App() {
   const [error, setError] = useState(null);
   const [todos, setTodos] = useState(initialTodos);
   const [isTimerTodo, setIsTimerTodo] = useState(false);
-  const [timerTime, setTimerTime] = useState("15");
+  const [timerTime, setTimerTime] = useState('15');
 
-  //ref to remove error message timer when user adds a successful todo 
+  //ref to remove error message timer when user adds a successful todo
   let errorTimeoutId = useRef(null);
 
   function getNextTodoId() {
     let largestId = todos.reduce((maxId, nextTodo) => {
-        return Math.max(maxId, nextTodo.id)
-      }, 0)
-    
+      return Math.max(maxId, nextTodo.id);
+    }, 0);
+
     return largestId + 1;
   }
 
@@ -62,46 +62,44 @@ function App() {
       }
       newTodo = {
         id: getNextTodoId(),
-        type: "normal",
+        type: 'normal',
         text: nextTodo,
         completed: false,
-      } 
+      };
     } else {
-        // handle timer-todos
-        newTodo = {
-          id: getNextTodoId(),
-          type: "timer",
-          text: nextTodo,
-          seconds: Number(timerTime) * 60,
-          completed: false,
-        }
-        setTimerTime('15');
-      }
-  
-      let newTodos = locStorage.addTodo(newTodo);
-      
-      setTodos(newTodos);  
-      setNextTodo('');
-      return;
+      // handle timer-todos
+      newTodo = {
+        id: getNextTodoId(),
+        type: 'timer',
+        text: nextTodo,
+        seconds: Number(timerTime) * 60,
+        completed: false,
+      };
+      setTimerTime('15');
     }
-  
+
+    let newTodos = locStorage.addTodo(newTodo);
+
+    setTodos(newTodos);
+    setNextTodo('');
+    return;
+  }
 
   function handleTextChange(e, isTimer) {
     let todo = e.target.value;
 
     //make sure the todo-text will fit the screen
-    if ((isTimer && todo.length > 20) || (!isTimer && todo.length > 23)){
+    if ((isTimer && todo.length > 20) || (!isTimer && todo.length > 23)) {
       setError('Try to be more concise.');
       return;
-      } 
-
-      setNextTodo(e.target.value);
     }
-    
+
+    setNextTodo(e.target.value);
+  }
+
   function handleTimerTimeChange(e) {
     setTimerTime(e.target.value);
   }
-
 
   function handleTodoTypeChange(e) {
     const cname = 'selected-todo-type';
@@ -111,7 +109,6 @@ function App() {
     prevSelected.className = '';
     e.target.className = cname;
 
-
     setIsTimerTodo(!isTimerTodo);
   }
 
@@ -119,25 +116,25 @@ function App() {
   if (error) {
     errorTimeoutId.current = setTimeout(() => {
       setError(null);
-    }, 2000)
+    }, 2000);
   }
 
-  let todosToDisplay = todos.toSorted((a,b) => {
+  let todosToDisplay = todos.toSorted((a, b) => {
     if (a.completed && !b.completed) {
       // non-completed todos should come first
       return 1;
-    } else if (a.type === "timer" && b.type === "normal") {
+    } else if (a.type === 'timer' && b.type === 'normal') {
       return 1;
-    } 
+    }
     return -1;
-  })
+  });
 
   let numOfCompleted = todos.reduce((acc, currentTodo) => {
     if (currentTodo.completed) {
       return acc + 1;
     }
     return acc;
-  }, 0)
+  }, 0);
 
   function toggleTodoCompleted(id) {
     setTodos(locStorage.toggleCompleted(id));
@@ -147,11 +144,10 @@ function App() {
     setTodos(locStorage.updateTimerTime(id, seconds));
   }
 
-  
   return (
-    <div className='todo-wrapper'>
+    <div className="todo-wrapper">
       <h1>Tasks</h1>
-      <AddTodoForm 
+      <AddTodoForm
         todoText={nextTodo}
         handleSubmit={handleTodoSubmit}
         handleTextChange={(e) => handleTextChange(e, isTimerTodo)}
@@ -161,11 +157,11 @@ function App() {
         handleTodoTypeChange={handleTodoTypeChange}
       />
 
-      <ErrorMessage error={error}/>
+      <ErrorMessage error={error} />
 
       {todos.length > 0 ? (
-        <TodoList 
-          todoList={todosToDisplay} 
+        <TodoList
+          todoList={todosToDisplay}
           toggleCompleted={toggleTodoCompleted}
           updateTimerTime={updateTimerTime}
         />
@@ -173,11 +169,11 @@ function App() {
         <p>No todos added yet.</p>
       )}
 
-      {(numOfCompleted > 0) &&
+      {numOfCompleted > 0 && (
         <button onClick={() => setTodos(locStorage.removeCompletedTodos)}>
           Remove completed
         </button>
-      }
+      )}
     </div>
   );
 }

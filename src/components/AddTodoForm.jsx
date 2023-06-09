@@ -7,27 +7,17 @@ export default function AddTodoForm({
   isTimerTodo,
   timerTime,
   handleTodoTypeChange,
-  handleTimerTimeChange
+  handleTimerTimeChange,
 }) {
   return (
-    <div className='todo-form-wrapper'>
-      <div className='todo-type-selection'>
-          <button
-            className='selected-todo-type'
-            onClick={handleTodoTypeChange}
-          >
-              Normal
-          </button>
-          <button
-            onClick={handleTodoTypeChange}
-          >
-            Timer
-          </button>
+    <div className="todo-form-wrapper">
+      <div className="todo-type-selection">
+        <button className="selected-todo-type" onClick={handleTodoTypeChange}>
+          Normal
+        </button>
+        <button onClick={handleTodoTypeChange}>Timer</button>
       </div>
-      <form
-        className="todo-form"
-        onSubmit={handleSubmit}
-      >
+      <form className="todo-form" onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="todo..."
@@ -44,14 +34,11 @@ export default function AddTodoForm({
               id="timer-time"
               value={timerTime}
               onChange={handleTimerTimeChange}
-            >
-            </input>
+            ></input>
           </div>
-          )
-        }
+        )}
         <button type="submit">Add</button>
-
       </form>
     </div>
-  )
+  );
 }
