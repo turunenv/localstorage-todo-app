@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
-import useImportScript from './hooks/useImportScript.js';
 import * as locStorage from './localStorage.js';
 
 import TodoList from './components/TodoList.jsx';
@@ -21,8 +20,6 @@ function App() {
   const [todos, setTodos] = useState(initialTodos);
   const [isTimerTodo, setIsTimerTodo] = useState(false);
   const [timerTime, setTimerTime] = useState("15");
-
-  useImportScript('/src/static/todoTransitions.js');
 
   //ref to remove error message timer when user adds a successful todo 
   let errorTimeoutId = useRef(null);
@@ -146,6 +143,11 @@ function App() {
     setTodos(locStorage.toggleCompleted(id));
   }
 
+  function updateTimerTime(id, seconds) {
+    setTodos(locStorage.updateTimerTime(id, seconds));
+  }
+
+  
   return (
     <div className='todo-wrapper'>
       <h1>Tasks</h1>
@@ -165,6 +167,7 @@ function App() {
         <TodoList 
           todoList={todosToDisplay} 
           toggleCompleted={toggleTodoCompleted}
+          updateTimerTime={updateTimerTime}
         />
       ) : (
         <p>No todos added yet.</p>

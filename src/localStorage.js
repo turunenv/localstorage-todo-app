@@ -35,6 +35,17 @@ function toggleCompleted(id) {
   return getTodos();
 }
 
+function updateTimerTime(id, seconds) {
+  let todos = getTodos();
+  let newTodos = todos.map(todo => {
+    if (todo.id !== id) return todo;
+    return {...todo, seconds,}
+  })
+  setTodos(newTodos);
+
+  return getTodos();
+}
+
 function removeCompletedTodos(todos) {
   let newTodos = todos.filter((todo) => !todo.completed);
   setTodos(newTodos);
@@ -42,4 +53,4 @@ function removeCompletedTodos(todos) {
   return getTodos();
 }
 
-export { getTodos, addTodo, toggleCompleted, removeCompletedTodos };
+export { getTodos, addTodo, toggleCompleted, removeCompletedTodos, updateTimerTime };

@@ -11,7 +11,8 @@ function secondsToMinSec(seconds) {
 
 export default function TimerTodo({
   todo,
-  toggleCompleted
+  toggleCompleted,
+  updateTimerTime,
 }) {
 
   //handle toggling todo to be completed when the timer is at 0
@@ -25,11 +26,14 @@ export default function TimerTodo({
 
   let [secondsLeft, isStopped, toggleStopped] = useTimer(initialTime);
 
-  let buttonControlText = 'Start';
-  if (secondsLeft < initialTime) {
-   buttonControlText = isStopped ? 'Resume' : 'Pause';
-  }
+  let buttonControlText = isStopped ? 'Start' : 'Pause';
   
+  function handleTimerButtonClick() {
+    toggleStopped();
+    if (!isStopped) {
+      updateTimerTime(todo.id, secondsLeft);
+    }
+  }
   
   return (
     <li 
@@ -65,7 +69,7 @@ export default function TimerTodo({
         
         { !todo.completed &&
           <button
-            onClick={toggleStopped}
+            onClick={handleTimerButtonClick}
           >
             {buttonControlText}
           </button>

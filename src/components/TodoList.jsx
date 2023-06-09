@@ -2,8 +2,11 @@ import Todo from './Todo.jsx';
 import TimerTodo from './TimerTodo.jsx';
 import '../styles/TodoList.css';
 
-export default function TodoList({ todoList, toggleCompleted }) {
-
+export default function TodoList({ 
+  todoList, 
+  toggleCompleted, 
+  updateTimerTime 
+}) {
   return (
     <ul>
       {todoList.map((todo) => {
@@ -20,6 +23,7 @@ export default function TodoList({ todoList, toggleCompleted }) {
           <TimerTodo 
             key={todo.id}
             todo={todo}
+            updateTimerTime={updateTimerTime}
             toggleCompleted={() => toggleCompleted(todo.id)}
           />
         )
