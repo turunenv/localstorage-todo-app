@@ -37,6 +37,15 @@ h1 {
   color: #000;
 }
 
+button {
+  font-size: 1.05rem;
+  padding: 3px 3px;
+  background-color: #ccc;
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+
+
 @media (max-width: 850px) {
   :root {
     font-size: 14px;

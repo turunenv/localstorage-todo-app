@@ -15,25 +15,22 @@ form > button {
 }  
 
 
-.todo-type-selection > button {
+.todo-type-selection  button {
   margin-top: 0.25rem;
   padding: 2px 4px;
   margin-left: 2px;
   font-size: 1.1rem;
   border-radius: 4px;
+  background-color: #fff;
 }
 
 .todo-form-wrapper {
   display: flex;
 }
 
-.selected-todo-type {
+.todo-type-selection .selected-todo-type {
   background-color: darkcyan;
   color: #eee;
-}
-
-.timer-todo-text {
-  /* max-width: 33%; */
 }
 
 .timer-todo-text > label {
@@ -86,6 +83,23 @@ form > input:nth-child(1) {
   .timer-time-controls > label {
     position: relative;
     top: 53px;
+  }
+}
+
+@media (hover:hover) {
+  .todo-form-wrapper button {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    box-shadow: 0px 0px #444;
+    transition: bottom 0.1s linear, right 0.1s linear, box-shadow 0.1s linear;
+  
+  }
+
+  .todo-form-wrapper button:hover {
+    bottom: 3px;
+    right: 1px;
+    box-shadow: 2px 3px 5px #444;
   }
 }
 
