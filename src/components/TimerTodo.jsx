@@ -17,7 +17,7 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
 
   const initialTime = Number(todo.seconds);
 
-  let [secondsLeft, updateTime, isStopped, toggleStopped] =
+  let [secondsLeft, updateTime, isStopped, toggleStopped, originalSeconds] =
     useTimer(initialTime);
 
   console.log('pageIsVisible: ', pageIsVisible);
@@ -97,7 +97,7 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
           className={todo.completed ? 'todo-text-completed' : ''}
         >
           {todo.completed
-            ? `${todo.text} for ${todo.seconds / 60} minutes`
+            ? `${todo.text} for ${originalSeconds.current/ 60} minutes`
             : todo.text}
         </label>
       </div>
