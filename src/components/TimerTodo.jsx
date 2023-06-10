@@ -20,8 +20,6 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
   let [secondsLeft, updateTime, isStopped, toggleStopped, originalSeconds] =
     useTimer(initialTime);
 
-  console.log('pageIsVisible: ', pageIsVisible);
-
   useEffect(() => {
     document.addEventListener('visibilitychange', () => {
       setPageIsVisible(document.visibilityState === 'visible');
@@ -30,7 +28,6 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
 
   // if page is not visible and timer is on => stop the counter and take a timestamp
   if (!pageIsVisible && !isStopped) {
-    console.log('page became unvisible. setting timestamp!');
     toggleStopped();
     startTimeStamp.current = Date.now();
   }
@@ -38,7 +35,6 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
   useEffect(() => {
     // when the page becomes visible, update the secondsLeft accordingly
     if (pageIsVisible && startTimeStamp.current) {
-      console.log('page is visible again, update the timer value!');
       let elapsedSeconds = Math.ceil(
         (Date.now() - startTimeStamp.current) / 1000
       );

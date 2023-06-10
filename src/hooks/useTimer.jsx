@@ -9,7 +9,6 @@ export default function useTimer(seconds) {
   const toggleStopped = () => setIsStopped(!isStopped);
 
   const updateTime = (time) => {
-    console.log('updating the time with value ', time);
     setSecondsLeft(time);
   };
 
