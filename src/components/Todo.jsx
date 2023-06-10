@@ -1,8 +1,4 @@
-import { useEffect } from 'react';
-
 import '../styles/Todo.css';
-import useTimer from '../hooks/useTimer.jsx';
-import { defaultProps } from 'react';
 
 export default function Todo({ todo, toggleCompleted }) {
   return (
