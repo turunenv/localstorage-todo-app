@@ -55,11 +55,6 @@ function App() {
 
     // handle normal todo-items
     if (!isTimerTodo) {
-      //set max length for normal todos
-      if (nextTodo.length > 23) {
-        setError('Try to be more concise.');
-        return;
-      }
       newTodo = {
         id: getNextTodoId(),
         type: 'normal',
@@ -123,6 +118,8 @@ function App() {
     if (a.completed && !b.completed) {
       // non-completed todos should come first
       return 1;
+    } else if (!a.completed && b.completed) {
+        return -1;
     } else if (a.type === 'timer' && b.type === 'normal') {
       return 1;
     }
