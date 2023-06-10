@@ -163,7 +163,7 @@ function App() {
           updateTimerTime={updateTimerTime}
         />
       ) : (
-        <p>No todos added yet.</p>
+        <p>No tasks added yet.</p>
       )}
 
       {numOfCompleted > 0 && (
