@@ -40,7 +40,7 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
       );
       startTimeStamp.current = null;
 
-      let updatedSecondsLeft = Math.max(secondsLeft - elapsedSeconds);
+      let updatedSecondsLeft = Math.max(secondsLeft - elapsedSeconds, 0);
       updateTime(updatedSecondsLeft);
       updateTimerTime(todo.id, updatedSecondsLeft);
       toggleStopped();
