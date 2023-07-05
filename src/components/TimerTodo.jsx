@@ -27,10 +27,13 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
   }, []);
 
   // if page is not visible and timer is on => stop the counter and take a timestamp
-  if (!pageIsVisible && !isStopped) {
-    toggleStopped();
-    startTimeStamp.current = Date.now();
-  }
+  useEffect(() => {
+    if (!pageIsVisible && !isStopped) {
+      toggleStopped();
+      startTimeStamp.current = Date.now();
+    }
+  }, [pageIsVisible, isStopped])
+ 
 
   useEffect(() => {
     // when the page becomes visible, update the secondsLeft accordingly
@@ -43,7 +46,10 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
       let updatedSecondsLeft = Math.max(secondsLeft - elapsedSeconds, 0);
       updateTime(updatedSecondsLeft);
       updateTimerTime(todo.id, updatedSecondsLeft);
-      toggleStopped();
+      
+      if (updatedSecondsLeft > 0) {
+        toggleStopped();
+      }
     }
   }, [
     pageIsVisible,
@@ -70,6 +76,16 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
     }
   }
 
+  function timeToRender(seconds) {
+    if (seconds < 60) {
+      return `${seconds}s`;
+    } else if (seconds % 60 === 0) {
+      return `${seconds / 60}min`
+    } else {
+      return `${Math.floor(seconds/60)}min ${seconds % 60}s`
+    }
+  }
+
   return (
     <li
       key={todo.id}
@@ -80,28 +96,33 @@ export default function TimerTodo({ todo, toggleCompleted, updateTimerTime }) {
       }
     >
       <div className="timer-todo-text">
-        {!todo.completed && (
-          <input
-            type="checkbox"
-            id={`toggleCompleted-${todo.id}`}
-            onChange={toggleCompleted}
-            checked={todo.completed}
-          />
-        )}
-        <label
-          htmlFor={`toggleCompleted-${todo.id}`}
-          className={todo.completed ? 'todo-text-completed' : ''}
-        >
-          {todo.completed
-            ? `${todo.text} for ${originalSeconds.current/ 60} minutes`
-            : todo.text}
-        </label>
+        {!todo.completed ? (
+          <>
+            <input
+              type="checkbox"
+              id={`toggleCompleted-${todo.id}`}
+              onChange={toggleCompleted}
+              checked={todo.completed}
+            />
+            <label
+              htmlFor={`toggleCompleted-${todo.id}`}
+              className={todo.completed ? 'todo-text-completed' : ''}
+            >
+              {todo.text}
+            </label>
+          </>
+          )
+          :
+          (
+            <div>{todo.text} for {timeToRender(originalSeconds)}</div>
+          )
+        }
       </div>
 
       <div className="timer-display-wrapper">
         {!todo.completed && (
           <span>
-            {`${Math.floor(secondsLeft / 60)}min ${secondsLeft % 60}s`}
+            {timeToRender(secondsLeft)}
           </span>
         )}
 

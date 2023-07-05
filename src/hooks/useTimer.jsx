@@ -22,5 +22,5 @@ export default function useTimer(seconds) {
     return () => clearTimeout(timeoutId);
   }, [seconds, secondsLeft, isStopped]);
 
-  return [secondsLeft, updateTime, isStopped, toggleStopped, originalSeconds];
+  return [secondsLeft, updateTime, isStopped, toggleStopped, originalSeconds.current];
 }

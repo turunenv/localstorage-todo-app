@@ -32,22 +32,31 @@ function App() {
     return largestId + 1;
   }
 
+  function displayError(err) {
+    setError(err);
+    errorTimeoutId.current = setTimeout(() => {
+      setError(null);
+      errorTimeoutId.current = null;
+    }, 20000)
+  }
+
   function handleTodoSubmit(e) {
     e.preventDefault();
 
     //clear previous error messages
     if (errorTimeoutId.current) {
+      clearTimeout(errorTimeoutId.current);
       errorTimeoutId.current = null;
       setError(null);
     }
 
     if (nextTodo.length === 0) {
-      setError('Add a task to complete.');
+      displayError('Add a task to complete!');
       return;
     }
 
     if (isTimerTodo && (timerTime.length === 0 || isNaN(timerTime))) {
-      setError('Enter a valid number for the timer.');
+      displayError('Enter a valid number for the timer.');
       return;
     }
 
@@ -85,7 +94,7 @@ function App() {
 
     //make sure the todo-text will fit the screen
     if ((isTimer && todo.length > 20) || (!isTimer && todo.length > 23)) {
-      setError('Try to be more concise.');
+      displayError('Try to be more concise.');
       return;
     }
 
@@ -105,13 +114,6 @@ function App() {
     e.target.className = cname;
 
     setIsTimerTodo(!isTimerTodo);
-  }
-
-  //display the error message for 2 seconds
-  if (error) {
-    errorTimeoutId.current = setTimeout(() => {
-      setError(null);
-    }, 2000);
   }
 
   let todosToDisplay = todos.toSorted((a, b) => {
